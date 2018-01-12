@@ -3,8 +3,8 @@ class Jumper {
   float posY;
   float size = 20;
   
-  float upthrust = 20;
-  float gravity = 2;
+  float upthrust = 100;
+  float gravity = 1;
   float trim = 0.9;
   float xVelocity = 0;
   float yVelocity = 0;
@@ -17,10 +17,7 @@ class Jumper {
   void update() {
     this.posY += this.yVelocity;
     this.yVelocity *= this.trim;
-    
-    if (this.posY == 0) {
-      this.yVelocity = 0;
-    }
+    this.yVelocity += this.gravity;
   }
   
   void show() {
@@ -38,7 +35,19 @@ class Jumper {
     }
   }
   
+  void edges() {
+    if (this.posX + this.size > width) {
+      this.posX = this.size;
+    } else if (this.posX - this.size < 0) {
+      this.posX = width - this.size;
+    }
+  }
+  
   void bounce() {
     this.yVelocity += this.upthrust;
+  }
+  
+  boolean fallsOffScreen() {
+    return(this.posY >= height);
   }
 }
