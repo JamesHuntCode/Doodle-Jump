@@ -14,10 +14,18 @@ class Bouncepad {
   }
   
   void show() {
-    rect(this.posX, this.posY, this.sideLength * 2, this.sideLength / 4);
+    ellipse(this.posX, this.posY, this.sideLength * 2, this.sideLength / 4);
   }
   
-  void touches(Jumper player) {
-     
+  boolean touches(Jumper player) {
+     if (player.posY >= (this.posY - this.sideLength / 4) && player.posY <= (this.posY + this.sideLength / 4)) {
+       if (player.posX >= (this.posX - this.sideLength) && player.posX <= (this.posX + this.sideLength)) {
+         return true;
+       } else {
+         return false; 
+       }
+     } else {
+       return false;
+     }
   }
 }

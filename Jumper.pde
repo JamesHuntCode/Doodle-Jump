@@ -3,7 +3,7 @@ class Jumper {
   float posY;
   float size = 20;
   
-  float upthrust = 100;
+  float upthrust = -50;
   float gravity = 1;
   float trim = 0.9;
   float xVelocity = 0;

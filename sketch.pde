@@ -1,17 +1,17 @@
 Jumper player;
-Bouncepad[] bouncepads = new Bouncepad[20];
+Bouncepad[] bouncepads = new Bouncepad[50];
 
 void setup(){
   size(600, 800);
   
   // Initialize player icon
-  player = new Jumper(width / 2, height / 2);
+  player = new Jumper(width / 2, 0);
   
   // Setup bouncepads
-  int offset = 100;
+  int offset = 150;
   for (int i = 0; i < bouncepads.length; i++) {
-    bouncepads[i] = new Bouncepad(random(0, width - 100), offset);
-    offset += 100;
+    bouncepads[i] = new Bouncepad(random(50, width - 50), offset);
+    offset += 150;
   }
 }
 
@@ -24,12 +24,18 @@ void draw() {
   player.update();
   
   if (player.fallsOffScreen()) {
-    // Restart the game
+    player.posY = 0;
   }
   
   // Draw boucepads
   for (int i = 0; i < bouncepads.length; i++) {
     bouncepads[i].show();
+  }
+  
+  for (int i = 0; i < bouncepads.length; i++) {
+    if (bouncepads[i].touches(player)) {
+      player.bounce();
+    }
   }
 }
 
