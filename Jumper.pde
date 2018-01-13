@@ -3,6 +3,7 @@ class Jumper {
   float posY;
   float size = 25;
   
+  // Movement engine
   float upthrust = -60;
   float sideSwing = 10;
   float gravity = 1.2;

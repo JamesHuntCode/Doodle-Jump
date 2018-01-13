@@ -2,9 +2,12 @@ class Bouncepad {
   float posX;
   float posY;
   float sideLength = 50;
+  
+  // Movement engine
   float velocity = 0;
   float movementOffset = 1.1;
   float movementEase = 0.9;
+  boolean active = true;
   
   Bouncepad(float x, float y) {
     this.posX = x;
@@ -37,5 +40,9 @@ class Bouncepad {
   
   void moveDown() {
     this.velocity += this.movementOffset;
+  }
+  
+  boolean isOffScreen() {
+    return ((this.posY - this.sideLength / 2) > height);
   }
 }
