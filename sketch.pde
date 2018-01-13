@@ -10,13 +10,13 @@ void setup(){
   // Setup bouncepads
   int offset = 150;
   for (int i = 0; i < bouncepads.length; i++) {
-    bouncepads[i] = new Bouncepad(random(50, width - 50), offset);
+    bouncepads[i] = new Bouncepad(random(75, width - 50), offset);
     offset += 150;
   }
 }
 
 void draw() {
-  background(51);
+  background(255);
   
   // Draw player
   player.show();
@@ -33,7 +33,7 @@ void draw() {
   }
   
   for (int i = 0; i < bouncepads.length; i++) {
-    if (bouncepads[i].touches(player)) {
+    if (bouncepads[i].touches(player) && !(player.yVelocity < 0)) {
       player.bounce();
     }
   }

@@ -1,10 +1,11 @@
 class Jumper {
   float posX;
   float posY;
-  float size = 20;
+  float size = 25;
   
-  float upthrust = -50;
-  float gravity = 1;
+  float upthrust = -60;
+  float sideSwing = 10;
+  float gravity = 1.2;
   float trim = 0.9;
   float xVelocity = 0;
   float yVelocity = 0;
@@ -18,20 +19,24 @@ class Jumper {
     this.posY += this.yVelocity;
     this.yVelocity *= this.trim;
     this.yVelocity += this.gravity;
+    
+    this.posX += this.xVelocity;
+    this.xVelocity *= this.trim;
   }
   
   void show() {
-    stroke(255);
+    fill(0, 255, 0);
+    noStroke();
     ellipse(this.posX, this.posY, this.size, this.size);
   }
   
   void move(int direction) {
     if (direction == 1) { 
       // Move left
-      this.posX -= this.size;
+      this.xVelocity -= this.sideSwing;
     } else { 
       // Move right
-      this.posX += this.size;
+      this.xVelocity += this.sideSwing;
     }
   }
   
