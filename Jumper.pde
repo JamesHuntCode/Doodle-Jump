@@ -25,8 +25,9 @@ class Jumper {
   }
   
   void show() {
-    fill(0, 255, 0);
-    noStroke();
+    fill(255, 255, 0);
+    stroke(0, 255, 0);
+    strokeWeight(1);
     ellipse(this.posX, this.posY, this.size, this.size);
   }
   

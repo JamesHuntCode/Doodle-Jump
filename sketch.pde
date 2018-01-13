@@ -5,18 +5,19 @@ void setup(){
   size(600, 800);
   
   // Initialize player icon
-  player = new Jumper(width / 2, 0);
+  player = new Jumper(width / 2, height / 2);
   
   // Setup bouncepads
-  int offset = 150;
+  int offsetValue = -175;
+  int offset = height;
   for (int i = 0; i < bouncepads.length; i++) {
     bouncepads[i] = new Bouncepad(random(75, width - 50), offset);
-    offset += 150;
+    offset += offsetValue;
   }
 }
 
 void draw() {
-  background(255);
+  background(#E0E0E0);
   
   // Draw player
   player.show();
@@ -24,12 +25,20 @@ void draw() {
   player.update();
   
   if (player.fallsOffScreen()) {
-    player.posY = 0;
+    player.posY = height / 2;
+  }
+  
+  // Dynamically adjust map
+  if (player.posY < height / 3) {
+    for (int i = 0; i < bouncepads.length; i++) {
+      bouncepads[i].moveDown();
+    }
   }
   
   // Draw boucepads
   for (int i = 0; i < bouncepads.length; i++) {
     bouncepads[i].show();
+    bouncepads[i].update();
   }
   
   for (int i = 0; i < bouncepads.length; i++) {
