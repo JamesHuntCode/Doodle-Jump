@@ -21,9 +21,9 @@ class Bouncepad {
   
   void show() {
     fill(0, 255, 0);
-    stroke(165, 42, 42);
-    strokeWeight(2);
-    ellipse(this.posX, this.posY, this.sideLength * 2.5, this.sideLength / 2);
+    stroke(0);
+    strokeWeight(1);
+    ellipse(this.posX, this.posY, this.sideLength * 2.5, this.sideLength / 3);
   }
   
   boolean touches(Jumper player) {
