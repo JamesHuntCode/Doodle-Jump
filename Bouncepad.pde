@@ -9,21 +9,49 @@ class Bouncepad {
   float movementEase = 0.9;
   boolean active = true;
   
-  Bouncepad(float x, float y) {
+  // Extended movement engine (used if platform moves horizontally)
+  boolean moves;
+  float movementSpeed = random(-5, 5);
+  float newSpeed = 3;
+  
+  Bouncepad(float x, float y, boolean moves) {
     this.posX = x;
     this.posY = y;
+    this.moves = moves;
+    
+    // Adjust speeds if needed
+    if (movementSpeed >= -1 && movementSpeed <= 1) {
+      if (random(0, 2) == 1) {
+        movementSpeed = -newSpeed;
+      } else {
+        movementSpeed = newSpeed;
+      }
+    }
   }
   
   void update() {
      this.posY += this.velocity;
      this.velocity *= this.movementEase;
+     
+     if (moves) {
+       this.posX += this.movementSpeed;
+     }
   }
   
   void show() {
-    fill(0, 255, 0);
-    stroke(0);
-    strokeWeight(1);
-    ellipse(this.posX, this.posY, this.sideLength * 2.5, this.sideLength / 3);
+    if (!moves) {
+      // Green platform
+      fill(0, 255, 0);
+      stroke(0);
+      strokeWeight(1);
+      ellipse(this.posX, this.posY, this.sideLength * 2.5, this.sideLength / 3);
+    } else {
+      // Blue platform
+      fill(0, 0, 255);
+      stroke(0);
+      strokeWeight(1);
+      ellipse(this.posX, this.posY, this.sideLength * 2.5, this.sideLength / 3);
+    }
   }
   
   boolean touches(Jumper player) {
@@ -44,5 +72,13 @@ class Bouncepad {
   
   boolean isOffScreen() {
     return ((this.posY - this.sideLength / 2) > height);
+  }
+  
+  void edges() {
+    if (this.posX - this.sideLength > width) {
+      this.posX = -this.sideLength;
+    } else if (this.posX + this.sideLength < 0) {
+      this.posX = width + this.sideLength;
+    }
   }
 }

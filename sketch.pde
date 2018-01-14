@@ -14,7 +14,7 @@ void setup(){
   int offset = height;
   
   for (int i = 0; i < 50; i++) {
-    bouncepads.add(new Bouncepad(random(75, width - 50), offset));
+    bouncepads.add(new Bouncepad(random(75, width -75), offset, false));
     offset += offsetValue;
   }
 }
@@ -26,7 +26,7 @@ void draw() {
   stroke(0);
   fill(0);
   textSize(15);
-  text(playerScore, 0, 15);
+  text("Your Score: " + playerScore, 5, 15);
   noFill();
   noStroke();
   
@@ -72,6 +72,13 @@ void draw() {
       bouncepads.remove(i);
       
       // Dynamically add more platforms
+      boolean movementStatus = (random(0, 100) > 75);
+      bouncepads.add(new Bouncepad(random(75, width - 75), bouncepads.get(bouncepads.size() - 1).posY - 150, movementStatus));
+    }
+    
+    // Keep moving platforms on the screen
+    if (currentBouncepad.moves) {
+      currentBouncepad.edges();
     }
   }
 }
