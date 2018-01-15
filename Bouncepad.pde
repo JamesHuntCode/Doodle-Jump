@@ -14,10 +14,14 @@ class Bouncepad {
   float movementSpeed = random(-5, 5);
   float newSpeed = 3;
   
-  Bouncepad(float x, float y, boolean moves) {
+  // Some platforms will fade after player jumps on them
+  boolean fades;
+  
+  Bouncepad(float x, float y, boolean movesSideways, boolean hidesSelf) {
     this.posX = x;
     this.posY = y;
-    this.moves = moves;
+    this.moves = movesSideways;
+    this.fades = hidesSelf;
     
     // Adjust speeds if needed
     if (movementSpeed >= -1 && movementSpeed <= 1) {
@@ -39,15 +43,21 @@ class Bouncepad {
   }
   
   void show() {
-    if (!moves) {
+    if (!moves && !fades) {
       // Green platform
       fill(0, 255, 0);
       stroke(0);
       strokeWeight(1);
       ellipse(this.posX, this.posY, this.sideLength * 2.5, this.sideLength / 3);
-    } else {
-      // Blue platform
+    } else if (moves) {
+      // Blue platform (moves sideways)
       fill(0, 0, 255);
+      stroke(0);
+      strokeWeight(1);
+      ellipse(this.posX, this.posY, this.sideLength * 2.5, this.sideLength / 3);
+    } else if (fades) {
+      // White platform (hides after has been jumped on)
+      fill(255);
       stroke(0);
       strokeWeight(1);
       ellipse(this.posX, this.posY, this.sideLength * 2.5, this.sideLength / 3);
@@ -79,6 +89,14 @@ class Bouncepad {
       this.posX = -this.sideLength;
     } else if (this.posX + this.sideLength < 0) {
       this.posX = width + this.sideLength;
+    }
+  }
+  
+  boolean needsToHide() {
+    if (fades && !active) {
+      return true;
+    } else {
+      return false; 
     }
   }
 }

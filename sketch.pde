@@ -13,8 +13,9 @@ void setup(){
   int offsetValue = -175;
   int offset = height;
   
+  // First 50 bouncepads will not move or remove after being jumped on
   for (int i = 0; i < 50; i++) {
-    bouncepads.add(new Bouncepad(random(75, width -75), offset, false));
+    bouncepads.add(new Bouncepad(random(75, width -75), offset, false, false));
     offset += offsetValue;
   }
 }
@@ -35,8 +36,12 @@ void draw() {
   player.edges();
   player.update();
   
+  // Check if player has died
   if (player.fallsOffScreen()) {
+    // Restart game
+    playerScore = 0;
     player.posY = height / 2;
+    player.posX = width / 2;
   }
   
   // Dynamically adjust map
@@ -68,17 +73,34 @@ void draw() {
       currentBouncepad.active = false;
     }
     
+    // When bouncepad moves off bottom of window, remove it
     if (currentBouncepad.isOffScreen()) {
       bouncepads.remove(i);
       
       // Dynamically add more platforms
-      boolean movementStatus = (random(0, 100) > 75);
-      bouncepads.add(new Bouncepad(random(75, width - 75), bouncepads.get(bouncepads.size() - 1).posY - 150, movementStatus));
+      // Chance of a moving platform
+      boolean movementStatus = (random(0, 100) > 75); 
+      
+      // Chance of a hiding platform
+      boolean willHide;
+      if (!movementStatus) { 
+        willHide = (random(0, 100) > 75); 
+      } else {
+        willHide = false;
+      }
+      
+      // Add constructed platform
+      bouncepads.add(new Bouncepad(random(75, width - 75), bouncepads.get(bouncepads.size() - 1).posY - 100, movementStatus, willHide));
     }
     
     // Keep moving platforms on the screen
     if (currentBouncepad.moves) {
       currentBouncepad.edges();
+    }
+    
+    // Check white platforms
+    if (currentBouncepad.needsToHide()) {
+      bouncepads.remove(i);
     }
   }
 }
